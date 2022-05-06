@@ -58,38 +58,77 @@ class CircularMenuItem extends StatelessWidget {
             'You can\'t use item and icon at the same time!');
 
   Widget _buildCircularMenuItem(BuildContext context, Widget? _item) {
-    return Container(
-      margin: EdgeInsets.all(margin),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        boxShadow: boxShadow ??
-            [
-              BoxShadow(
-                color: color ?? Theme.of(context).primaryColor,
-                blurRadius: 10,
+    return Stack(clipBehavior: Clip.none, children: [
+      Positioned(
+          bottom: -2,
+          right: -2,
+          child: Container(
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(45)),
+              child: ClipOval(
+                  child: Container(
+                height: 40,
+                width: 40,
+                color: Theme.of(context).primaryColor,
+              )))),
+      Container(
+          decoration: BoxDecoration(
+              border:
+                  Border.all(color: Theme.of(context).primaryColor, width: 2),
+              borderRadius: BorderRadius.circular(45)),
+          child: ClipOval(
+            child: Material(
+              color: Theme.of(context).scaffoldBackgroundColor, // button color
+              child: InkWell(
+                splashColor: Theme.of(context).primaryColor, // inkwell color
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: _item != null
+                      ? Center(child: _item)
+                      : Icon(
+                          icon,
+                          color: Theme.of(context).primaryColor,
+                          size: 19,
+                        ),
+                ),
+                onTap: onTap,
               ),
-            ],
-        shape: BoxShape.circle,
-      ),
-      child: ClipOval(
-        child: Material(
-          color: color ?? Theme.of(context).primaryColor,
-          child: InkWell(
-            child: Padding(
-              padding: EdgeInsets.all(padding),
-              child: _item == null
-                  ? Icon(
-                      icon,
-                      size: iconSize,
-                      color: iconColor ?? Colors.white,
-                    )
-                  : _item,
             ),
-            onTap: onTap,
-          ),
-        ),
-      ),
-    );
+          )),
+    ]);
+    // return       Container(
+    //   margin: EdgeInsets.all(margin),
+    //   decoration: BoxDecoration(
+    //     color: Colors.transparent,
+    //     boxShadow: boxShadow ??
+    //         [
+    //           BoxShadow(
+    //             color: color ?? Theme.of(context).primaryColor,
+    //             blurRadius: 10,
+    //           ),
+    //         ],
+    //     shape: BoxShape.circle,
+    //   ),
+    //   child: ClipOval(
+    //     child: Material(
+    //       color: color ?? Theme.of(context).primaryColor,
+    //       child: InkWell(
+    //         child: Padding(
+    //           padding: EdgeInsets.all(padding),
+    //           child: _item == null
+    //               ? Icon(
+    //                   icon,
+    //                   size: iconSize,
+    //                   color: iconColor ?? Colors.white,
+    //                 )
+    //               : _item,
+    //         ),
+    //         onTap: onTap,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   Widget _buildCircularMenuItemWithBadge(BuildContext context, Widget? _item) {
